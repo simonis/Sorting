@@ -62,10 +62,6 @@ public class QuickSort {
   }
 
   static ForkJoinPool fjp;
-  static {
-    fjp = new ForkJoinPool(Integer.getInteger("PARALLELISM", Runtime.getRuntime().availableProcessors()));
-    System.out.println("Size of ForkJoinPool: " + fjp.getParallelism());
-  }
 
   public static void quicksort_p(int[] a) {
     fjp.invoke(new ParallelQuickSort(a, 0, a.length - 1));
@@ -173,6 +169,11 @@ public class QuickSort {
   public static void main(String[] args) {
     test();
     warmup();
-    measure(Boolean.getBoolean("PARALLEL"));
+    boolean parallel = Boolean.getBoolean("PARALLEL");
+    if (parallel) {
+      fjp = new ForkJoinPool(Integer.getInteger("PARALLELISM", Runtime.getRuntime().availableProcessors()));
+      System.out.println("Using ForkJoinPool of size: " + fjp.getParallelism());
+    }
+    measure(parallel);
   }
 }
