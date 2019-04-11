@@ -1,6 +1,9 @@
 package io.simonis;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveAction;
@@ -98,12 +101,12 @@ public class QuickSort {
       int[] a1 = aa[i].clone();
       int[] a2 = aa[i].clone();
       Arrays.sort(a1);
-      if (DEBUG) System.out.print(Arrays.toString(a2) + " -> ");
+      if (DEBUG) System.out.print("# " + Arrays.toString(a2) + " -> ");
       quicksort(a2);
       if (DEBUG) System.out.println(Arrays.toString(a2));
       assert Arrays.equals(a1, a2);
     }
-    System.out.println("Test finished");
+    System.out.println("# Test finished");
   }
 
   public static void warmup() {
@@ -121,7 +124,7 @@ public class QuickSort {
       quicksort(ra2);
       assert Arrays.equals(c, ra2);
     }
-    System.out.println("Warmup finished");
+    System.out.println("# Warmup finished");
   }
 
   // Base size of arrays to sort
@@ -149,6 +152,7 @@ public class QuickSort {
 
   public static void measure(boolean parallel) {
     int[][][] ars = setup();
+    DecimalFormat df = (DecimalFormat)NumberFormat.getNumberInstance(new Locale("de"));
     for (int i = 0; i < ars.length; i++) {
       long start = System.nanoTime();
       for (int j = 0; j < ars[i].length; j++) {
@@ -161,7 +165,7 @@ public class QuickSort {
       }
       long end = System.nanoTime();
       // Print array size and average sorting time for arrays of that size in milliseconds
-      System.out.println(ars[i][0].length + " " + ((end - start) / ars[i].length) / 1_000_000);
+      System.out.println(df.format(ars[i][0].length) + " " + ((end - start) / ars[i].length) / 1_000_000);
     }
 
   }
@@ -172,8 +176,9 @@ public class QuickSort {
     boolean parallel = Boolean.getBoolean("PARALLEL");
     if (parallel) {
       fjp = new ForkJoinPool(Integer.getInteger("PARALLELISM", Runtime.getRuntime().availableProcessors()));
-      System.out.println("Using ForkJoinPool of size: " + fjp.getParallelism());
+      System.out.println("# Using ForkJoinPool of size: " + fjp.getParallelism());
     }
+    System.out.println(parallel ? ("\"" + fjp.getParallelism() + " Threads\"") : "Serial"); // Used as 'columnhead' in gnuplot
     measure(parallel);
   }
 }

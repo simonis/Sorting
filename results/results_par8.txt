@@ -2,6 +2,7 @@
 # Size of ForkJoinPool: 8
 # Test finished
 # Warmup finished
+"8 Threads"
 1048576 34
 2097152 65
 3145728 84

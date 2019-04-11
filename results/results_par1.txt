@@ -2,6 +2,7 @@
 # Size of ForkJoinPool: 40
 # Test finished
 # Warmup finished
+"Serial"
 1.048.576 112
 2.097.152 229
 3.145.728 353
