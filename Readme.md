@@ -160,9 +160,11 @@ The complexity of Quicksort looks nearly linear, it's true O(n*log(n)) nature ca
 
 This program uses Java properties instead of command line arguments for configuration.
 
-| `BASE_SIZE` | Base size of arrays to sort (i.e. smallest array will be of this size) |
-| `ITERATIONS` | Number of different array sizes to sort. Sizes will range from `BASE_SIZE` to `ITERATIONS` * `BASE_SIZE` |
-| `SAMPLES` | The number of measurements (i.e. array sorted) for each array size |
+| Property | Description |
+| --- | --- |
+| `BASE_SIZE` | Base size of arrays to sort (i.e. smallest array will be of this size). Defaults to 1024. |
+| `ITERATIONS` | Number of different array sizes to sort (defaults to 16). Sizes will range from `BASE_SIZE` to `ITERATIONS` * `BASE_SIZE` |
+| `SAMPLES` | The number of measurements (i.e. array sorted) for each array size (defaults to 16).|
 | `PARALLEL` | If `False` the serial version will be used, if `True` the parallel one |
 | `PARALLELISM` | Sets the number of parallel sorting threads. If unset, the number will default to the number of CPUs (i.e. `Runtime.availableProcessors()`) |
 | `THRESHOLD` | Array slices smaller than 'THRESHOLD' won't be sorted in parallel any more (defaults to 256). |
